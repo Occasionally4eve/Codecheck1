@@ -8,19 +8,23 @@ promotionRouter
   .route("/")
   .get((req, res, next) => {
     Promotion.find()
-      .then((paromotion) => res.status(200).json(paromotion))
+      .then((promotion) => res.status(200).json(promotion))
       .catch((err) => next(err));
   })
-  .post(authenticate.verifyUser, (req, res, next) => {
+  .post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
     Promotion.create(req.body)
       .then((promotion) => res.status(200).json(promotion))
       .catch((err) => next(err));
   })
-  .delete(authenticate.verifyUser, (req, res, next) => {
-    Promotion.deleteMany()
-      .then((paromotion) => res.status(200).json(paromotion))
-      .catch((err) => next(err));
-  });
+  .delete(
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res, next) => {
+      Promotion.deleteMany()
+        .then((promotion) => res.status(200).json(promotion))
+        .catch((err) => next(err));
+    }
+  );
 
 promotionRouter
   .route("/:promotionId")
@@ -29,7 +33,7 @@ promotionRouter
       .then((promotion) => res.status(200).json(promotion))
       .catch((err) => next(err));
   })
-  .put(authenticate.verifyUser, (req, res, next) => {
+  .put(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
     Promotion.findByIdAndUpdate(req.params.promotionId),
       {
         $set: req.body,
@@ -38,10 +42,14 @@ promotionRouter
         .then((promotion) => res.status(200).json(promotion))
         .catch((err) => next(err));
   })
-  .delete(authenticate.verifyUser, (req, res, next) => {
-    Promotion.findByIdAndDelete(req.params.promotionId)
-      .then((promotion) => res.status(200).json(promotion))
-      .catch((err) => next(err));
-  });
+  .delete(
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res, next) => {
+      Promotion.findByIdAndDelete(req.params.promotionId)
+        .then((promotion) => res.status(200).json(promotion))
+        .catch((err) => next(err));
+    }
+  );
 
 module.exports = promotionRouter;
