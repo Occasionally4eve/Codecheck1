@@ -13,7 +13,7 @@ favoriteRouter
       .populate("user")
       .populate("campsites")
       .then((favorite) => {
-        res.statusCode(200).json(favorite);
+        res.status(200).json(favorite);
       })
       .catch((err) => next(err));
   })
@@ -29,7 +29,7 @@ favoriteRouter
           favorite
             .save()
             .then((favorite) => {
-              res.statusCode(200).json(favorite);
+              res.status(200).json(favorite);
             })
             .catch((err) => next(err));
         } else {
@@ -43,7 +43,7 @@ favoriteRouter
               favorite
                 .save()
                 .then((favorite) => {
-                  res.statusCode(200).json(favorite);
+                  res.status(200).json(favorite);
                 })
                 .catch((err) => next(err));
             })
@@ -56,9 +56,9 @@ favoriteRouter
     Favorite.findOneAndDelete({ user: req.user._id })
       .then((favorite) => {
         if (favorite) {
-          res.statusCode(200).json(favorite);
+          res.status(200).json(favorite);
         } else {
-          res.statusCode(200).end("You do not have any favorites to delete");
+          res.status(200).end("You do not have any favorites to delete");
         }
       })
       .catch((err) => next(err));
@@ -74,17 +74,17 @@ favoriteRouter
           if (favorite.campsites.includes(req.params.campsiteId)) {
             favorite.campsites.push(req.params.campsiteId);
             favorite.save().then((favorite) => {
-              res.statusCode(200).json(favorite);
+              res.status(200).json(favorite);
             });
           } else {
-            res.statusCode(200).end("That campsite already exists");
+            res.status(200).end("That campsite already exists");
           }
         } else {
           Favorite.create({
             user: req.user._id,
             campsites: [req.params.campsiteId],
           }).then((favorite) => {
-            res.statusCode(200).json(favorite);
+            res.status(200).json(favorite);
           });
         }
       })
@@ -101,11 +101,11 @@ favoriteRouter
           favorite
             .save()
             .then((favorite) => {
-              res.statusCode(200).json(favorite);
+              res.status(200).json(favorite);
             })
             .catch((err) => next(err));
         } else {
-          res.statusCode(200).end("You do not have any favorites to delete");
+          res.status(200).end("You do not have any favorites to delete");
         }
       })
       .catch((err) => next(err));
