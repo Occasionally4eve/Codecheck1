@@ -8,6 +8,7 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    facebookId: String,
   },
   {
     timestamps: true,
